@@ -17,6 +17,14 @@ export default defineConfig({
         tailwindcss(),
     ],
     server: {
+        // Forward page requests to Laravel so the Vite URL renders the app too.
+        // Vite keeps serving its own assets (/@vite, /resources, /node_modules, ...).
+        proxy: {
+            '^/(?!@|resources/|node_modules/|__|build/).*': {
+                target: 'http://127.0.0.1:8000',
+                changeOrigin: false,
+            },
+        },
         watch: {
             ignored: ['**/storage/framework/views/**'],
         },
